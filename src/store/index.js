@@ -2,6 +2,7 @@
  * Created by Roc on 2017/6/14.
  */
 import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import reducers from '../modules';
 import logger from 'redux-logger';
@@ -23,5 +24,5 @@ export default (preloadedState = {}) => {
         ...reducers
     });
 
-    return createStore(rootReducer, preloadedState, middleware)
+    return createStore(rootReducer, preloadedState, composeWithDevTools(middleware))
 }
