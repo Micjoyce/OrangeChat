@@ -8,6 +8,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyl
 
 import HomeTabs from './HomeTabs';
 import ChatRoom from '../containers/ChatRoom';
+import NewsDetail from '../containers/NewsDetail';
 
 //安卓端需要加上一個headerRight讓title居中
 const headerOptions = {
@@ -24,6 +25,7 @@ const headerOptions = {
 const Routers = StackNavigator({
     Home: { screen: HomeTabs, navigationOptions: { headerTitle: 'HomeTabs', ...headerOptions } },
     ChatRoom: { screen: ChatRoom, navigationOptions: { headerTitle: 'ChatRoom', ...headerOptions } },
+    NewsDetail: { screen: NewsDetail, navigationOptions: { headerTitle: 'NewsDetail', ...headerOptions } },
 }, {
     headerMode: 'screen',
     transitionConfig: () => ({

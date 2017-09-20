@@ -17,25 +17,6 @@ const MainScreenNavigator = TabNavigator({
   lazy:true,
   initialRouteName:'RecentChats',
   backBehavior:'none',
-  tabBarOptions:{
-    activeTintColor:'blue',
-    activeBackgroundColor:'#aaa',
-    inactiveTintColor:'black',
-    inactiveBackgroundColor:'#ccc',
-    showIcon:true,
-    showLabel:true,
-    upperCaseLabel:false,
-    labelStyle:{
-        fontSize:12
-    },
-    indicatorStyle:'green',
-    pressColor:'#823453',
-    pressOpacity:0.8,
-    scrollEnabled:true,
-    tabStyle:{
-        height:46
-    }
-  }
 });
 
 MainScreenNavigator.navigationOptions = {

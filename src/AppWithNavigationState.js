@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import Routers from './routers';
+import { setNavigator } from './services/navigator';
 
 class AppWithNavigationState extends Component {
   componentDidMount() {
@@ -28,7 +29,7 @@ class AppWithNavigationState extends Component {
   render() {
       const { dispatch, nav } = this.props;
       return (
-          <Routers navigation={addNavigationHelpers({
+          <Routers ref={nav => { setNavigator(nav); }} navigation={addNavigationHelpers({
               dispatch: dispatch,
               state: nav
           })}
