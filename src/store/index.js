@@ -12,7 +12,7 @@ const middlewares = [thunk.withExtraArgument()];
 
 // 只有开发环境才使用logger middleware
 if (__DEV__) {
-    middlewares.push(logger);
+    // middlewares.push(logger);
 }
 
 // 将中间件柯里化

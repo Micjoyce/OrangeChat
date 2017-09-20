@@ -8,10 +8,33 @@ import {
   Button
 } from 'react-native';
 
+import { NavigationActions } from 'react-navigation'
+
 
 class ChatRoom extends Component {
   onPress = () => {
-
+    // this.props.navigation.dispatch({
+    //   type: "ReplaceCurrentScreen",
+    //   routeName: "Home",
+    //   key: "Home",
+    //   action: NavigationActions.navigate({ routeName: 'Me'})
+    // });
+    const navigateAction = NavigationActions.navigate({
+    
+      routeName: 'Home',
+    
+      params: {},
+    
+      action: NavigationActions.navigate({ routeName: 'Me'})
+    })
+    // // this.props.navigation.dispatch(navigateAction)
+    // const resetAction = NavigationActions.reset({
+    //   index: 0,
+    //   actions: [
+    //     navigateAction
+    //   ]
+    // })
+    this.props.navigation.dispatch(navigateAction)
   }
   circlePress = () => {
     const { navigate } = this.props.navigation;
@@ -26,10 +49,11 @@ class ChatRoom extends Component {
     }
   }
   render() {
+    const { params } = this.props.navigation.state;
     return (
       <View>
         <Text>
-          ChatRoom
+          ChatRoom {params.user}
         </Text>
         <Button
           onPress={this.onPress}

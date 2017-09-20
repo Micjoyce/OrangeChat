@@ -19,6 +19,13 @@ class NewsDetail extends Component {
       navigate('NewsDetail', { user: 'Lucy' })
     }
   }
+  chatPress = () => {
+    const { navigate } = this.props.navigation;
+    if (navigate) {
+      navigate('ChatRoom', { user: 'michael' })
+    }
+  }
+   
   render() {
     return (
       <View>
@@ -32,6 +39,10 @@ class NewsDetail extends Component {
         <Button
           onPress={this.circlePress}
           title={'重复跳转到newDetail页面'}
+        />
+        <Button
+          onPress={this.chatPress}
+          title={'重复跳转到chatdetail页面'}
         />
       </View>
     );
