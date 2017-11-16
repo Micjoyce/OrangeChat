@@ -8,8 +8,19 @@ import {
   Button
 } from 'react-native';
 
+import './CustomKeyboard';
+
+import { CustomTextInput } from 'seer-custom-keyboard';
+
+
 
 class NewsDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+    };
+  }
   onPress = () => {
 
   }
@@ -25,6 +36,11 @@ class NewsDetail extends Component {
       navigate('ChatRoom', { user: 'michael' })
     }
   }
+  onChangeText = (text) => {
+    this.setState({
+      value: text
+    })
+  }
    
   render() {
     return (
@@ -32,6 +48,9 @@ class NewsDetail extends Component {
         <Text>
           NewsDetail
         </Text>
+        <View>
+          <CustomTextInput customKeyboardType="hello" value={this.state.value} onChangeText={this.onChangeText} />
+        </View>
         <Button
           onPress={this.onPress}
           title={'跳转到hometab页面'}

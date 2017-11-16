@@ -1495,6 +1495,10 @@ event-target-shim@^1.0.5:
   version "1.1.1"
   resolved "https://registry.npmjs.org/event-target-shim/-/event-target-shim-1.1.1.tgz#a86e5ee6bdaa16054475da797ccddf0c55698491"
 
+events@^1.1.1:
+  version "1.1.1"
+  resolved "http://registry.npm.taobao.org/events/download/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
+
 exec-sh@^0.2.0:
   version "0.2.1"
   resolved "https://registry.npmjs.org/exec-sh/-/exec-sh-0.2.1.tgz#163b98a6e89e6b65b47c2a28d215bc1f63989c38"
@@ -3947,6 +3951,13 @@ sax@^1.2.1:
 sax@~1.1.1:
   version "1.1.6"
   resolved "https://registry.npmjs.org/sax/-/sax-1.1.6.tgz#5d616be8a5e607d54e114afae55b7eaf2fcc3240"
+
+seer-custom-keyboard@^1.0.5:
+  version "1.0.5"
+  resolved "http://registry.npm.taobao.org/seer-custom-keyboard/download/seer-custom-keyboard-1.0.5.tgz#e5f088551dcafc9f99c7aeb9549fb40bffab168d"
+  dependencies:
+    events "^1.1.1"
+    prop-types "^15.5.10"
 
 "semver@2 || 3 || 4 || 5", semver@5.x, semver@^5.0.1, semver@^5.0.3, semver@^5.1.0, semver@^5.3.0:
   version "5.4.1"

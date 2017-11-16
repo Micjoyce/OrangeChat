@@ -1,3 +1,5 @@
 rootProject.name = 'OrangeChat'
+include ':seer-custom-keyboard'
+project(':seer-custom-keyboard').projectDir = new File(rootProject.projectDir, '../node_modules/seer-custom-keyboard/android')
 
 include ':app'
