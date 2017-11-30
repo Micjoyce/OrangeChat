@@ -7,7 +7,10 @@ import {
   Button,
   TextInput,
   KeyboardAvoidingView,
-  StyleSheet
+  StyleSheet,
+  FlatList,
+  AsyncStorage,
+  Alert,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -25,18 +28,47 @@ const styles = StyleSheet.create({
   }
 });
 
+const DEFAULT_URLS = [
+  'wss://gl.clchat.com/websocket',
+  'ws://139.224.34.238:18080/websocket',
+  'ws://139.196.252.87:9011/websocket',
+  'wss://demo.rocket.chat/websocket',
+]
+
 class RecentChats extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: 'wss://gl.clchat.com/websocket',
+      url: DEFAULT_URLS[0],
       createTm: 0,
       openTm: 0,
       connectedTm: 0,
-      err: ''
+      err: '',
+      urls: DEFAULT_URLS,
     }
     this.ws = null;
   }
+
+  componentDidMount() {
+    this.initUrls();
+  }
+  initUrls = async () => {
+    let urls = await AsyncStorage.getItem('urls');
+    if (!urls) {
+      urls = JSON.stringify(DEFAULT_URLS)
+      await AsyncStorage.setItem('urls', urls);
+    }
+    let arrUrls;
+    try {
+      arrUrls = JSON.parse(urls);
+    } catch (error) {
+      arrUrls = DEFAULT_URLS;
+    }
+    this.setState({
+      urls: arrUrls
+    });
+  }
+
   createSocket = () => {
     const timer = new Date();
     this.ws = new WebSocket(this.state.url);
@@ -103,27 +135,6 @@ class RecentChats extends Component {
     }
   }
 
-  setDdpPro = () => {
-    this.setState({
-      url: 'wss://gl.clchat.com/websocket',
-    });
-  }
-  setDdpDev = () => {
-    this.setState({
-      url: 'ws://139.224.34.238:18080/websocket',
-    });
-  }
-  setDdpProTest = () => {
-    this.setState({
-      url: 'ws://139.196.252.87:9011/websocket',
-    });
-  }
-  testRocketDemo = () => {
-    this.setState({
-      url: 'wss://demo.rocket.chat/websocket',
-    });
-  }
-
   goToChatDetail = () => {
     const { navigate } = this.props.navigation;
     if (navigate) {
@@ -145,31 +156,72 @@ class RecentChats extends Component {
     });
   }
 
-  setCustomUrl = () => {
+  activeUrl = (url) => {
     this.setState((state) => {
       return {
-        url: state.txtUrl,
+        url: url,
       };
     });
   }
 
+  saveExtenalUrl = async () => {
+    if (!this.state.txtUrl || /^ws/.test(this.state.txtUrl) === false) {
+      Alert.alert(this.state.txtUrl + ' not a ddp url');
+      return;
+    }
+    let urls = this.state.urls;
+    urls.unshift(this.state.txtUrl);
+    try {
+      urls = JSON.stringify(urls);
+      await AsyncStorage.setItem('urls', urls);
+      this.activeUrl(this.state.txtUrl);
+      const newUrls = JSON.parse(urls);
+      this.setState({
+        urls: newUrls
+      })
+    } catch (error) {
+      Alert.alert('saveExtenalUrl' + JSON.stringify(error));
+    }
+  }
+
+  clear = async () => {
+    await AsyncStorage.clear();
+    this.setState({
+      urls: DEFAULT_URLS
+    })
+  }
+
+  _keyExtractor = (item, index) => index + item;
+
+  renderItem = ({item, index}) => {
+    return (
+      <Button
+        onPress={() => {
+          this.activeUrl(item)
+        }}
+        title={item}
+      >
+      </Button>
+    );
+  }
 
   render() {
     return (
       <View>
-        <Text>
-          RecentChats
-        </Text>
-        <Button
-          onPress={this.goToChatDetail}
-          title={'go to chat detail'}
+        <View
+          style={{ flexDirection: 'row', justifyContent: 'space-around' }}
         >
-        </Button>
-        <Button
-          onPress={this.gotoNews}
-          title={'go to news detail'}
-        >
-        </Button>
+          <Button
+            onPress={this.goToChatDetail}
+            title={'go to chat detail'}
+          >
+          </Button>
+          <Button
+            onPress={this.gotoNews}
+            title={'go to news detail'}
+          >
+          </Button>
+        </View>
         <View>
             <TextInput
               placeholder="输入自定义ddp服务器地址"
@@ -177,44 +229,44 @@ class RecentChats extends Component {
               underlineColorAndroid="transparent"
               onChange={(event) => this.updateText(event.nativeEvent.text)}
             />
-            <Button
-              onPress={this.setCustomUrl}
-              title={'使用输入的地址'}
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-around' }}
             >
-            </Button>
+              <Button
+                onPress={this.saveExtenalUrl}
+                title={'保存地址'}
+              >
+              </Button>
+              <Button
+                onPress={this.clear}
+                title={'清除所有缓存'}
+              >
+              </Button>
+            </View>
         </View>
-        <Button
-          onPress={this.setDdpPro}
-          title={'wss://gl.clchat.com/websocket'}
-        >
-        </Button>
-        <Button
-          onPress={this.setDdpProTest}
-          title={'ws://139.196.252.87:9011/websocket'}
-        >
-        </Button>
-        <Button
-          onPress={this.setDdpDev}
-          title={'ws://139.224.34.238:18080/websocket'}
-        >
-        </Button>
-        <Button
-          onPress={this.testRocketDemo}
-          title={'wss://demo.rocket.chat/websocket'}
-        >
-        </Button>
-        <Button
-          onPress={this.createSocket}
-          title={'创建ddp链接'}
-        >
-        </Button>
-        <Button
-          onPress={this.close}
-          title={'断开ddp链接'}
-        >
-        </Button>
+        <View style={{height: 200}}>
+          <FlatList
+            data={this.state.urls}
+            renderItem={this.renderItem}
+            keyExtractor={this._keyExtractor}
+          />
+        </View>
         <View>
-          <Text>createTm:{this.state.url}</Text>
+          <Button
+            color="green"
+            onPress={this.createSocket}
+            title={'创建ddp链接'}
+          >
+          </Button>
+          <Button
+            color="red"
+            onPress={this.close}
+            title={'断开ddp链接'}
+          >
+          </Button>
+        </View>
+        <View>
+          <Text>socket地址:{this.state.url}</Text>
           <Text>createTm:{this.state.createTm}</Text>
           <Text>openTm:{this.state.openTm}</Text>
           <Text>connectedTm:{this.state.connectedTm}</Text>
