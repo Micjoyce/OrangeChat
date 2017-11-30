@@ -6,8 +6,24 @@ import {
   Text,
   Button,
   TextInput,
+  KeyboardAvoidingView,
+  StyleSheet
 } from 'react-native';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  textInput: {
+    borderRadius: 5,
+    borderWidth: 1,
+    height: 44,
+    paddingHorizontal: 10,
+  }
+});
 
 class RecentChats extends Component {
   constructor(props) {
@@ -154,6 +170,19 @@ class RecentChats extends Component {
           title={'go to news detail'}
         >
         </Button>
+        <View>
+            <TextInput
+              placeholder="输入自定义ddp服务器地址"
+              style={[{padding: 0}, styles.textInput]}
+              underlineColorAndroid="transparent"
+              onChange={(event) => this.updateText(event.nativeEvent.text)}
+            />
+            <Button
+              onPress={this.setCustomUrl}
+              title={'使用输入的地址'}
+            >
+            </Button>
+        </View>
         <Button
           onPress={this.setDdpPro}
           title={'wss://gl.clchat.com/websocket'}
@@ -174,19 +203,6 @@ class RecentChats extends Component {
           title={'wss://demo.rocket.chat/websocket'}
         >
         </Button>
-        <View>
-          <TextInput
-            placeholder="输入自定义ddp服务器地址"
-            style={{padding: 0}}
-            underlineColorAndroid="transparent"
-            onChange={(event) => this.updateText(event.nativeEvent.text)}
-          />
-          <Button
-            onPress={this.setCustomUrl}
-            title={'使用输入的地址'}
-          >
-          </Button>
-        </View>
         <Button
           onPress={this.createSocket}
           title={'创建ddp链接'}
