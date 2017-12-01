@@ -1,4 +1,6 @@
 rootProject.name = 'OrangeChat'
+include ':react-native-fetch-blob'
+project(':react-native-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fetch-blob/android')
 include ':seer-custom-keyboard'
 project(':seer-custom-keyboard').projectDir = new File(rootProject.projectDir, '../node_modules/seer-custom-keyboard/android')
 

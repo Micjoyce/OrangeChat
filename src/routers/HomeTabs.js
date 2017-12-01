@@ -5,8 +5,8 @@ import Moments from '../containers/Home/Moments';
 import Me from '../containers/Home/Me';
 
 const MainScreenNavigator = TabNavigator({
-  RecentChats: { screen: RecentChats },
   Contacts: { screen: Contacts },
+  RecentChats: { screen: RecentChats },
   Moments: { screen: Moments },
   Me: { screen: Me },
 }, {
@@ -15,7 +15,7 @@ const MainScreenNavigator = TabNavigator({
   swipeEnabled:true,
   animationEnabled:false,
   lazy:true,
-  initialRouteName:'RecentChats',
+  initialRouteName:'Contacts',
   backBehavior:'none',
 });
 
