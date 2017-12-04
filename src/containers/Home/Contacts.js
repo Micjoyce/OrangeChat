@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import {
   View,
-  Text
+  Text,
+  Image
 } from 'react-native';
 
 import {ImageCache, CachedImage} from "../../lib/img-cache";
@@ -15,7 +16,7 @@ global.ImageCache = ImageCache;
 class Contacts extends Component {
   constructor() {
     super();
-    this.url = "https://gl.clchat.com/avatar/T8ZHrxWfwiikCSW6D.jpg"
+    this.url = "https://demo.rocket.chat/avatar/12312312322.jpg"
   }
   componentDidMount() {
     // ImageCache.get().clear();

@@ -77,8 +77,7 @@ export class ImageCache {
             cache.downloading = true;
             const method = source.method ? source.method : "GET";
             cache.task = RNFetchBlob.config({ path }).fetch(method, uri, source.headers);
-            cache.task.then((res) => {
-                console.log(res.info());
+            cache.task.then(() => {
                 cache.downloading = false;
                 cache.path = path;
                 this.notify(uri);
@@ -94,13 +93,12 @@ export class ImageCache {
         if (cache.path) {
             // We check here if IOS didn't delete the cache content
             RNFetchBlob.fs.exists(cache.path).then((exists) => {
-              console.log(cache.path);
-              //   if (exists) {
-              //       this.notify(uri);
-              //   }
-                // else {
-                // }
-                this.download(cache);
+                if (exists) {
+                    this.notify(uri);
+                }
+                else {
+                    this.download(cache);
+                }
             });
         }
         else {
