@@ -5,15 +5,14 @@ import {
   View,
   Text,
   Button,
-  ScrollView,
-  ListView,
   Dimensions,
   FlatList,
-  Platform,
 } from 'react-native';
 
+import ScrollContainer from '../components/ScrollContainer';
+
 const { width, height } = Dimensions.get('window');
-class RecentChats extends Component {
+class ChatRoom extends Component {
   constructor(props) {
     super(props);
     const data1 = [];
@@ -31,20 +30,12 @@ class RecentChats extends Component {
     this.state = {
       data1,
       data2,
-      enableScrollViewScroll: true,
-      innerScrollEnable: true,
       activeList: 'list1',
     };
 
-    this.contentOffset = {
-      y: 0,
-      x: 0,
-    }
   }
 
-  handleScroll =  (event) => {
-    this.contentOffset = event.nativeEvent.contentOffset
-  }
+
 
   setActiveTabs = () => {
     this.setState({
@@ -53,6 +44,13 @@ class RecentChats extends Component {
   }
 
   _keyExtractor = (item) => item.key;
+
+  innerListIsTop = () => {
+    if (this[this.state.activeList] && this[this.state.activeList]._listRef._scrollMetrics.offset === 0) {
+      return true
+    }
+    return false
+  }
 
   renderRow1 = ({item, index}) => {
     return (
@@ -74,60 +72,51 @@ class RecentChats extends Component {
       return (
         <FlatList
           scrollEnabled={this.state.innerScrollEnable}
-          ref="list1"
+          ref={(c) => this.list1 = c}
           data={this.state.data1}
           renderItem={this.renderRow1}
           keyExtractor={this._keyExtractor}
+          onEndReached={() => {
+            alert('dd');
+          }}
+          onEndReachedThreshold={0.5}
         />
       )
     }
     return (
       <FlatList
         scrollEnabled={this.state.innerScrollEnable}
-        ref="list2"
+        ref={(c) => this.list2 = c}
         data={this.state.data2}
         renderItem={this.renderRow2}
         keyExtractor={this._keyExtractor}
+        onEndReached={() => {
+          alert('dd');
+        }}
+        onEndReachedThreshold={0.5}
       />
     )
   }
-  render() {
+
+  renderHeader = () => {
     return (
-      <View
-        onStartShouldSetResponderCapture={() => {
-          this.setState({ enableScrollViewScroll: true });
-        }}
-      >
-        <ScrollView
-          ref="_scrollview"
-          scrollEnabled={this.state.enableScrollViewScroll}
-          onScroll={this.handleScroll}
-          scrollEventThrottle={200}
-        >
-          <View style={{height: 300, backgroundColor: 'red'}}>
-              <Text>header, {this.state.activeList}</Text>
-          </View>
+      <View style={{height: 300, backgroundColor: '#ccc'}}>
+          <Text>header, {this.state.activeList}</Text>
           <Button
             onPress={this.setActiveTabs}
             title="change style"
           />
-          <View
-            style={{ height: height - 100, backgroundColor: 'green'}}
-            onStartShouldSetResponderCapture={() => {
-              console.log(this.contentOffset.y);
-              // ios 不需要下面这一句
-              if (Platform.OS === 'android') {
-                this.setState({ enableScrollViewScroll: false });
-              }
-              if (this.refs[this.state.activeList] && this.refs[this.state.activeList]._listRef._scrollMetrics.offset === 0 && this.state.enableScrollViewScroll === false) {
-                this.setState({ enableScrollViewScroll: true });
-              }
-            }}
-          >
-              {this.renderTabs()}
-          </View>
-        </ScrollView>
       </View>
+    )
+  }
+
+  render() {
+    return (
+      <ScrollContainer
+        renderHeader={this.renderHeader}
+        renderContent={this.renderTabs}
+        innerListIsTop={this.innerListIsTop}
+      />
     );
   }
 }
@@ -144,4 +133,4 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecentChats);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatRoom);
