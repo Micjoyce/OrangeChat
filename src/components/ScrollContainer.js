@@ -6,6 +6,7 @@ import {
   FlatList,
   Platform,
   PanResponder,
+  Text,
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -65,6 +66,9 @@ export default class ScrollContainer extends Component {
           scrollEventThrottle={200}
         >
           {this.props.renderHeader && this.props.renderHeader()}
+          <View>
+            <Text>{this.state.enableScrollViewScroll.toString()}</Text>
+          </View>
           <View
             {...this._panResponder.panHandlers}
             style={{
