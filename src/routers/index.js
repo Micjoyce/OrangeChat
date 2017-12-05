@@ -9,6 +9,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyl
 import HomeTabs from './HomeTabs';
 import ChatRoom from '../containers/ChatRoom';
 import NewsDetail from '../containers/NewsDetail';
+import SectionsList from '../containers/SectionsList';
 
 //安卓端需要加上一個headerRight讓title居中
 const headerOptions = {
@@ -50,6 +51,13 @@ const MyApp = StackNavigator({
       headerTitle: 'NewsDetail',
       ...headerOptions
     }
+  },
+  SectionsList: {
+    screen: SectionsList,
+    navigationOptions: {
+      headerTitle: 'SectionsList',
+      ...headerOptions
+    }
   }
 }, {
   headerMode: 'screen',
@@ -76,5 +84,4 @@ MyApp.router.getStateForAction = (action, state) => {
 };
 
 
-console.log(MyApp.Home);
 export default MyApp;

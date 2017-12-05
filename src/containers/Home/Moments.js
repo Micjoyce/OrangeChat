@@ -16,6 +16,12 @@ class Moments extends Component {
       navigate('ChatRoom', { user: 'Lucy' })
     }
   }
+  gotoSectionList = () => {
+    const { navigate } = this.props.navigation;
+    if (navigate) {
+      navigate('SectionsList')
+    }
+  }
   render() {
     return (
       <View>
@@ -25,6 +31,11 @@ class Moments extends Component {
         <Button
             onPress={this.goToChatDetail}
             title={'go to chat detail'}
+          >
+        </Button>
+        <Button
+            onPress={this.gotoSectionList}
+            title={'go to news SectionList'}
           >
         </Button>
       </View>
