@@ -142,6 +142,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-gesture-handler')
     compile project(':react-native-fetch-blob')
     compile project(':seer-custom-keyboard')
     compile fileTree(dir: "libs", include: ["*.jar"])

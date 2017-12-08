@@ -8,6 +8,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyl
 
 import HomeTabs from './HomeTabs';
 import ChatRoom from '../containers/ChatRoom';
+import ChatRoomTest from '../containers/ChatRoomTest';
 import NewsDetail from '../containers/NewsDetail';
 import SectionsList from '../containers/SectionsList';
 
@@ -56,6 +57,13 @@ const MyApp = StackNavigator({
     screen: SectionsList,
     navigationOptions: {
       headerTitle: 'SectionsList',
+      ...headerOptions
+    }
+  },
+  ChatRoomTest: {
+    screen: ChatRoomTest,
+    navigationOptions: {
+      headerTitle: 'ChatRoomTest',
       ...headerOptions
     }
   }

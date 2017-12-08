@@ -1,136 +1,136 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
+import { Animated, Dimensions, StyleSheet, Text, View } from 'react-native';
 import {
-  View,
-  Text,
-  Button,
-  Dimensions,
+  PanGestureHandler,
+  TapGestureHandler,
+  ScrollView,
+  State,
   FlatList,
-} from 'react-native';
+} from 'react-native-gesture-handler';
 
-import ScrollContainer from '../components/ScrollContainer';
+import { LoremIpsum } from '../components/Common';
 
-const { width, height } = Dimensions.get('window');
-class ChatRoom extends Component {
+const USE_NATIVE_DRIVER = {
+  USE_NATIVE_DRIVER: true,
+};
+
+
+const windowWidth = Dimensions.get('window').width;
+const circleRadius = 30;
+
+export class TapOrPan extends Component {
+  constructor(props) {
+    super(props);
+    this._touchX = new Animated.Value(windowWidth / 2 - circleRadius);
+    this._translateX = Animated.add(
+      this._touchX,
+      new Animated.Value(-circleRadius)
+    );
+    this._onPanGestureEvent = Animated.event(
+      [
+        {
+          nativeEvent: {
+            x: this._touchX,
+          },
+        },
+      ],
+    );
+  }
+
+  _onTapHandlerStateChange = ({ nativeEvent }) => {
+    if (nativeEvent.oldState === State.ACTIVE) {
+      // Once tap happened we set the position of the circle under the tapped spot
+      this._touchX.setValue(nativeEvent.x);
+    }
+  };
+
+  render() {
+    return (
+      <TapGestureHandler
+        id="tap"
+        waitFor="pan"
+        onHandlerStateChange={this._onTapHandlerStateChange}
+        shouldCancelWhenOutside>
+        <PanGestureHandler
+          id="pan"
+          minDeltaX={20}
+          onGestureEvent={this._onPanGestureEvent}
+          shouldCancelWhenOutside>
+          <View style={styles.horizontalPan}>
+            <Animated.View
+              style={[
+                styles.circle,
+                {
+                  transform: [
+                    {
+                      translateX: this._translateX,
+                    },
+                  ],
+                },
+              ]}
+            />
+          </View>
+        </PanGestureHandler>
+      </TapGestureHandler>
+    );
+  }
+}
+
+export default class Example extends Component {
   constructor(props) {
     super(props);
     const data1 = [];
-    const data2 = [];
     for (let i = 0; i < 50; i++) {
       data1.push({
         name: 'data1 ' + i,
         key: i + 'data'
       });
-      data2.push({
-        name: 'data2 ' + i,
-        key: i + 'data'
-      });
     }
     this.state = {
       data1,
-      data2,
-      activeList: 'list1',
     };
-
   }
-
-
-
-  setActiveTabs = () => {
-    this.setState({
-      activeList: this.state.activeList === 'list1' ? 'list2' : 'list1',
-    });
-  }
-
-  _keyExtractor = (item) => item.key;
-
-  innerListIsTop = () => {
-    if (this[this.state.activeList] && this[this.state.activeList]._listRef._scrollMetrics.offset === 0) {
-      return true
-    }
-    return false
-  }
-
-  renderRow1 = ({item, index}) => {
-    return (
-      <View style={{ height: 40, backgroundColor: index % 2 == 0 ? 'red' : 'blue'}}>
-        <Text>index + {item.name}</Text>
-      </View>
-    )
-  }
-  renderRow2 = ({item, index}) => {
-    return (
-      <View style={{ height: 40, backgroundColor: index % 2 == 1 ? 'red' : 'blue'}}>
-        <Text>index + {item.name} asdjfsaljfadsfksdkkfa</Text>
-      </View>
-    )
-  }
-  
-  renderTabs = () => {
-    if (this.state.activeList === 'list1') {
-      return (
-        <FlatList
-          scrollEnabled={this.state.innerScrollEnable}
-          ref={(c) => this.list1 = c}
-          data={this.state.data1}
-          renderItem={this.renderRow1}
-          keyExtractor={this._keyExtractor}
-          onEndReached={() => {
-            alert('dd');
-          }}
-          onEndReachedThreshold={0.5}
-        />
-      )
-    }
-    return (
-      <FlatList
-        scrollEnabled={this.state.innerScrollEnable}
-        ref={(c) => this.list2 = c}
-        data={this.state.data2}
-        renderItem={this.renderRow2}
-        keyExtractor={this._keyExtractor}
-        onEndReached={() => {
-          alert('dd');
-        }}
-        onEndReachedThreshold={0.5}
-      />
-    )
-  }
-
-  renderHeader = () => {
-    return (
-      <View style={{height: 300, backgroundColor: '#ccc'}}>
-          <Text>header, {this.state.activeList}</Text>
-          <Button
-            onPress={this.setActiveTabs}
-            title="change style"
-          />
-      </View>
-    )
-  }
-
+  _keyExtractor = (item, index) => item.key;
+  _renderItem = ({item}) => (
+    <View style={{ height: 50, backgroundColor: '#eee' }}>
+      <Text>
+        {item.name}
+      </Text>
+    </View>
+  );
   render() {
     return (
-      <ScrollContainer
-        renderHeader={this.renderHeader}
-        renderContent={this.renderTabs}
-        innerListIsTop={this.innerListIsTop}
-      />
+      <ScrollView waitFor={['tap', 'pan', 'list']}>
+        <View style={{ height: 200, backgroundColor: '#ccc' }}>
+        </View>
+        <TapOrPan />
+        <View
+          style={{ height: 500 }}
+        >
+          <FlatList
+            id="list"
+            data={this.state.data1}
+            extraData={this.state}
+            keyExtractor={this._keyExtractor}
+            renderItem={this._renderItem}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
 
-
-const mapStateToProps = (state) => {
-  return {
-  };
-};
-
-// pass Actions creators as props to AllCommentAboutMe
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-  }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatRoom);
+const styles = StyleSheet.create({
+  horizontalPan: {
+    backgroundColor: '#f48fb1',
+    height: 150,
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  circle: {
+    backgroundColor: '#42a5f5',
+    borderRadius: circleRadius,
+    height: circleRadius * 2,
+    width: circleRadius * 2,
+  },
+});

@@ -5,11 +5,17 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Button
+  Button,
+  Animated,
 } from 'react-native';
 
 
 class Moments extends Component {
+  constructor() {
+    super();
+    this.scale = new Animated.Value(0);
+    this.scale1 = new Animated.Value(20);
+  }
   goToChatDetail = () => {
     const { navigate } = this.props.navigation;
     if (navigate) {
@@ -22,6 +28,48 @@ class Moments extends Component {
       navigate('SectionsList')
     }
   }
+
+  animate = () => {
+		Animated.sequence([
+			Animated.timing(
+				this.scale,
+				{
+					toValue: 0,
+					duration: 0,
+					useNativeDriver: true
+				}
+			),
+			Animated.timing(
+				this.scale,
+				{
+					toValue: 290,
+					duration: 2000,
+					useNativeDriver: true
+				}
+			)
+		]).start(() => {
+			this.animate();
+		});
+		Animated.sequence([
+			Animated.timing(
+				this.scale1,
+				{
+					toValue: 20,
+					duration: 0,
+					useNativeDriver: true
+				}
+			),
+			Animated.timing(
+				this.scale1,
+				{
+					toValue: 290,
+					duration: 2000,
+					useNativeDriver: true
+				}
+			)
+		]).start(() => {
+		});
+	}
   render() {
     return (
       <View>
@@ -38,6 +86,42 @@ class Moments extends Component {
             title={'go to news SectionList'}
           >
         </Button>
+        <Button
+            onPress={this.animate}
+            title={'go to news SectionList'}
+          >
+        </Button>
+        <View
+          style={{
+            height: 10,
+            width: 300,
+            backgroundColor: '#eee',
+            flexDirection: 'row',
+          }}
+        >
+          <Animated.View
+            style={{
+              width: 10,
+              height: 10,
+              backgroundColor: '#ccc',
+              transform: [
+                { translateX: this.scale }
+              ]
+            }}
+          >
+          </Animated.View>
+          <Animated.View
+            style={{
+              width: 10,
+              height: 10,
+              backgroundColor: '#ccc',
+              transform: [
+                { translateX: this.scale1 }
+              ]
+            }}
+          >
+          </Animated.View>
+        </View>
       </View>
     );
   }
