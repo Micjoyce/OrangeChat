@@ -11,6 +11,8 @@ import ChatRoom from '../containers/ChatRoom';
 import ChatRoomTest from '../containers/ChatRoomTest';
 import NewsDetail from '../containers/NewsDetail';
 import SectionsList from '../containers/SectionsList';
+import ScrollViewTest from '../containers/ScrollViewTest';
+import ScrollViewEvent from '../containers/ScrollViewEvent';
 
 //安卓端需要加上一個headerRight讓title居中
 const headerOptions = {
@@ -32,6 +34,20 @@ const headerOptions = {
  * 路由配置中心
  */
 const MyApp = StackNavigator({
+  ScrollViewTest: {
+    screen: ScrollViewTest,
+    navigationOptions: {
+      headerTitle: 'ScrollViewTest',
+      ...headerOptions
+    }
+  },
+  ScrollViewEvent: {
+    screen: ScrollViewEvent,
+    navigationOptions: {
+      headerTitle: 'ScrollViewEvent',
+      ...headerOptions
+    }
+  },
   Home: {
     screen: HomeTabs,
     navigationOptions: {

@@ -23,7 +23,7 @@ class SectionsList extends Component {
     super(props);
     const data1 = [];
     const data2 = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 103; i++) {
       data1.push({
         name: 'data1 ' + i,
         key: i + 'data'
