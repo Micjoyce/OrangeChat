@@ -3,6 +3,7 @@ package com.orangechat;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.wix.interactable.Interactable;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import cn.reactnative.customkeyboard.RNCustomKeyboardPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new Interactable(),
             new RNGestureHandlerPackage(),
             new RNFetchBlobPackage(),
             new RNCustomKeyboardPackage()

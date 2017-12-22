@@ -13,6 +13,7 @@ import NewsDetail from '../containers/NewsDetail';
 import SectionsList from '../containers/SectionsList';
 import ScrollViewTest from '../containers/ScrollViewTest';
 import ScrollViewEvent from '../containers/ScrollViewEvent';
+import Interactable from '../containers/Interactable';
 
 //安卓端需要加上一個headerRight讓title居中
 const headerOptions = {
@@ -34,6 +35,20 @@ const headerOptions = {
  * 路由配置中心
  */
 const MyApp = StackNavigator({
+  Home: {
+    screen: HomeTabs,
+    navigationOptions: {
+      headerTitle: 'HomeTabs',
+      ...headerOptions
+    }
+  },
+  Interactable: {
+    screen: Interactable,
+    navigationOptions: {
+      headerTitle: 'Interactable',
+      ...headerOptions
+    }
+  },
   ScrollViewTest: {
     screen: ScrollViewTest,
     navigationOptions: {
@@ -45,13 +60,6 @@ const MyApp = StackNavigator({
     screen: ScrollViewEvent,
     navigationOptions: {
       headerTitle: 'ScrollViewEvent',
-      ...headerOptions
-    }
-  },
-  Home: {
-    screen: HomeTabs,
-    navigationOptions: {
-      headerTitle: 'HomeTabs',
       ...headerOptions
     }
   },

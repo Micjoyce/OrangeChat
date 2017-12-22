@@ -28,6 +28,12 @@ class Moments extends Component {
       navigate('SectionsList')
     }
   }
+  gotoInteractable = () => {
+    const { navigate } = this.props.navigation;
+    if (navigate) {
+      navigate('Interactable')
+    }
+  }
 
   animate = () => {
 		Animated.sequence([
@@ -89,6 +95,11 @@ class Moments extends Component {
         <Button
             onPress={this.animate}
             title={'go to news SectionList'}
+          >
+        </Button>
+        <Button
+            onPress={this.gotoInteractable}
+            title={'go to news gotoInteractable'}
           >
         </Button>
         <View
