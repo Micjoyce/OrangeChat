@@ -34,6 +34,18 @@ class Moments extends Component {
       navigate('Interactable')
     }
   }
+  InterHeader = () => {
+    const { navigate } = this.props.navigation;
+    if (navigate) {
+      navigate('InterHeader')
+    }
+  }
+  Interexample = () => {
+    const { navigate } = this.props.navigation;
+    if (navigate) {
+      navigate('Interexample')
+    }
+  }
 
   animate = () => {
 		Animated.sequence([
@@ -100,6 +112,16 @@ class Moments extends Component {
         <Button
             onPress={this.gotoInteractable}
             title={'go to news gotoInteractable'}
+          >
+        </Button>
+        <Button
+            onPress={this.InterHeader}
+            title={'go to news InterHeader'}
+          >
+        </Button>
+        <Button
+            onPress={this.Interexample}
+            title={'go to news Interexample'}
           >
         </Button>
         <View

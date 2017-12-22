@@ -14,6 +14,8 @@ import SectionsList from '../containers/SectionsList';
 import ScrollViewTest from '../containers/ScrollViewTest';
 import ScrollViewEvent from '../containers/ScrollViewEvent';
 import Interactable from '../containers/Interactable';
+import InterHeader from '../containers/InterHeader';
+import Interexample from '../containers/Interexample';
 
 //安卓端需要加上一個headerRight讓title居中
 const headerOptions = {
@@ -39,6 +41,20 @@ const MyApp = StackNavigator({
     screen: HomeTabs,
     navigationOptions: {
       headerTitle: 'HomeTabs',
+      ...headerOptions
+    }
+  },
+  InterHeader: {
+    screen: InterHeader,
+    navigationOptions: {
+      headerTitle: 'InterHeader',
+      ...headerOptions
+    }
+  },
+  Interexample: {
+    screen: Interexample,
+    navigationOptions: {
+      headerTitle: 'Interexample',
       ...headerOptions
     }
   },
